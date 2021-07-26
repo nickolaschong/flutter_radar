@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_radar/concentric_circle_painter.dart';
+import 'package:flutter_radar/radar_arc.dart';
 import 'package:flutter_radar/radar_marker.dart';
 
 class Radar extends StatelessWidget {
@@ -49,6 +50,13 @@ class Radar extends StatelessWidget {
                     radius: radius - 10,
                   ),
                 ),
+              Positioned(
+                left: 0,
+                top: 0,
+                child: RadarArc(
+                  radius: radius,
+                ),
+              ),
             ],
           ),
         );
