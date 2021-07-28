@@ -12,6 +12,7 @@ class Radar extends StatelessWidget {
       aspectRatio: 1.0,
       child: LayoutBuilder(builder: (context, constraints) {
         final radius = constraints.maxWidth / 2;
+
         return Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -51,11 +52,9 @@ class Radar extends StatelessWidget {
                   ),
                 ),
               Positioned(
-                left: 0,
-                top: 0,
-                child: RadarArc(
-                  radius: radius,
-                ),
+                left: radius,
+                top: radius,
+                child: RadarArc(radius: radius * 0.76),
               ),
             ],
           ),

@@ -18,16 +18,16 @@ class RadarArc extends StatefulWidget {
 class _RadarArcState extends State<RadarArc>
     with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
-  Duration _currentlyElapsed = Duration.zero;
+  Duration _elapsed = Duration.zero;
 
   @override
   void initState() {
     _ticker = createTicker((elapsed) {
       setState(() {
-        _currentlyElapsed = elapsed;
+        _elapsed = elapsed;
       });
     });
-    _ticker.start();
+    // _ticker.start();
     super.initState();
   }
 
@@ -39,17 +39,20 @@ class _RadarArcState extends State<RadarArc>
 
   @override
   Widget build(BuildContext context) {
+    const milliSecondsPerRound = 1500;
+    final width = widget.radius * 2;
+    final height = widget.radius * 2;
+
     return Transform(
       alignment: Alignment.center,
       transform: Matrix4.identity()
-        ..translate(0.0, 0.0, 0.0)
-        ..rotateZ((2 * pi / 2500) * _currentlyElapsed.inMilliseconds),
-      child: Container(
-        color: Colors.transparent,
-        height: widget.radius * 2,
-        width: widget.radius * 2,
-        child: CustomPaint(
-          painter: ArcPainter(),
+        ..translate(-width / 2, -height / 2, 0.0)
+        ..rotateZ((2 * pi / milliSecondsPerRound) * _elapsed.inMilliseconds),
+      child: CustomPaint(
+        painter: ArcPainter(),
+        child: SizedBox(
+          width: width,
+          height: height,
         ),
       ),
     );
@@ -61,10 +64,9 @@ class ArcPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Offset _center = Offset(size.width / 2, size.height / 2);
+    Offset center = Offset(size.width / 2, size.height / 2);
 
-    final rect = Rect.fromCircle(center: _center, radius: size.width / 4);
-
+    final rect = Rect.fromCircle(center: center, radius: size.width / 2);
     final paint = Paint()
       ..shader = LinearGradient(
         colors: [
@@ -78,19 +80,18 @@ class ArcPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     canvas.drawArc(
-        Rect.fromCenter(
-          center: _center,
-          width: size.width,
-          height: size.height,
-        ),
-        250 * pi / 180,
-        pi / 4,
-        true,
-        paint);
+      Rect.fromCenter(
+        center: center,
+        width: size.width,
+        height: size.height,
+      ),
+      247 * pi / 180,
+      pi / 4,
+      true,
+      paint2,
+    );
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
