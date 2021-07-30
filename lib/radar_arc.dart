@@ -27,7 +27,7 @@ class _RadarArcState extends State<RadarArc>
         _elapsed = elapsed;
       });
     });
-    // _ticker.start();
+    _ticker.start();
     super.initState();
   }
 
@@ -68,16 +68,12 @@ class ArcPainter extends CustomPainter {
 
     final rect = Rect.fromCircle(center: center, radius: size.width / 2);
     final paint = Paint()
-      ..shader = LinearGradient(
+      ..shader = const LinearGradient(
         colors: [
           Colors.transparent,
-          Colors.green.shade900,
+          Colors.green,
         ],
       ).createShader(rect);
-
-    var paint2 = Paint()
-      ..color = Colors.green
-      ..style = PaintingStyle.fill;
 
     canvas.drawArc(
       Rect.fromCenter(
@@ -85,13 +81,13 @@ class ArcPainter extends CustomPainter {
         width: size.width,
         height: size.height,
       ),
-      247 * pi / 180,
-      pi / 4,
+      220 * pi / 180,
+      pi / 2,
       true,
-      paint2,
+      paint,
     );
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
